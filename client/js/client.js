@@ -9,21 +9,7 @@ if (Meteor.isClient) {
   // accept own info
   Meteor.subscribe("player");
 
-  // // counter starts at 0
-  // Session.setDefault('counter', 0);
+  // initialise messages array
+  Session.setDefault('messages', []);
 
-  // Helpers define variables/data rendered in html
-  Template.pageLogin.helpers({
-    // counter: function () {
-    //   return Session.get('counter');
-    // }
-  });
-
-  // Events define listeners for actions
-  Template.pageLogin.events({
-    // 'click button': function () {
-    //   // increment the counter when button is clicked
-    //   Session.set('counter', Session.get('counter') + 1);
-    // }
-  });
 }

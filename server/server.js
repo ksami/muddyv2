@@ -6,5 +6,11 @@ if (Meteor.isServer) {
   
   Meteor.startup(function () {
     // code to run on server at startup
+    // testuser
+    _dbPlayers.insert({
+      createdAt: new Date(),
+      owner: 1,
+      username: "testuser"
+    });
   });
 }
