@@ -1,19 +1,7 @@
 if (Meteor.isClient) {
-  Session.set('chats', [
-    {from: "Admin", text: "Ugh."},
-    {from: "Admin", text: "I'm sleepy..."},
-    {from: "Admin", text: "We done yet?"},
-    {from: "Admin", text: "*Yawns*"}
-  ]);
-
 
   // Helpers define variables/data rendered in html
   Template.pageGame.helpers({
-
-    messages: function() {
-      return Session.get('messages');
-    },
-
     actions: [
       {action: {type: "move", val: 1}, text: "move"},
       {action: {type: "fight", val: 1}, text: "fight"},
@@ -47,11 +35,9 @@ if (Meteor.isClient) {
     addMsgToChat(msg);
   });
 
-  // Scroll to bottom everytime messages changed
+  // Scroll to bottom everytime messages added
   addMsgToChat = function(msg) {
-    var messages = Session.get('messages');
-    messages.push(msg)
-    Session.set('messages', messages);
+    $('#messages').append('<li>' + msg.from + ': ' + msg.text + '</li>');
     $('#messages').scrollTop( $('#messages').prop("scrollHeight") );
   };
 }

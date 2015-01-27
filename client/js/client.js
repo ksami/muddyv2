@@ -10,6 +10,6 @@ if (Meteor.isClient) {
   Meteor.subscribe("player");
 
   // initialise messages array
-  Session.setDefault('messages', []);
+  // Session.setDefault('messages', []);
 
 }

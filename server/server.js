@@ -13,4 +13,22 @@ if (Meteor.isServer) {
       username: "testuser"
     });
   });
+
+  _streamChat.permissions.write(function(eventName) {
+    return true;
+  });
+
+  _streamChat.permissions.read(function(eventName) {
+    return true;
+  });
+
+  setInterval( function() {
+    var msgs = [
+      {from: "Admin", text: "Ugh."},
+      {from: "Admin", text: "I'm sleepy..."},
+      {from: "Admin", text: "We done yet?"},
+      {from: "Admin", text: "*Yawns*"}
+    ];
+    _streamChat.emit('message', msgs[Math.floor(Math.random()*3)]);
+  }, 5000);
 }
