@@ -1,0 +1,31 @@
+<head>
+  <title>muddy v2</title>
+</head>
+
+<body>
+
+  <!--navbar-->
+  <header>
+    <h1>muddy v2</h1>
+    <div class="login">
+      {{> loginButtons}}
+    </div>
+  </header>
+
+
+  <!--page views-->
+  <div class="page">
+    {{#if currentUser}}
+      {{> pageGame}}
+    {{else}}
+      {{> pageLogin}}
+    {{/if}}
+  </div>
+
+</body>
+
+<template name="pageLogin">
+  <div>
+    Please login.
+  </div>
+</template>

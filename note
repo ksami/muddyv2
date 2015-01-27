@@ -1,0 +1,4 @@
+meteor remove insecure
+meteor remove autopublish
+meteor add accounts-ui
+meteor add accounts-password
