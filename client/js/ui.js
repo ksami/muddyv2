@@ -44,7 +44,7 @@ if (Meteor.isClient) {
       $('#messages li').slice(0,buffer).remove();
     }
 
-    $('#messages').append('<li>' + msg.from + ': ' + msg.text + '</li>');
+    $('#messages').append($('<li>').text(msg.from + ': ' + msg.text));
     $('#messages').scrollTop( $('#messages').prop("scrollHeight") );
   };
 
