@@ -3,16 +3,14 @@
 	
   <div id="left-col" class="left box">
     
-    <div class="box">
-      <canvas id="map"></canvas>      
+    <div id="map" class="box">
+      <!--Kinetic-->
     </div>
 
     <div>
       <div id="chat" class="left box">
         <ul id="messages">
-          {{#each messages}}
-            {{> message}}
-          {{/each}}
+          <!--chat messages-->
         </ul>
         <form class="box form-chat">
           <input type="text" name="inputChat">
@@ -39,10 +37,6 @@
 
 </template>
 
-
-<template name="message">
-  <li>{{ from }}: {{ text }}</li>
-</template>
 
 <template name="action">
   <tr>
