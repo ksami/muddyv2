@@ -147,6 +147,16 @@ if (Meteor.isClient) {
       blob.start();
     };
 
+    var usernameText = new Kinetic.Text({
+      x: 6,
+      y: 3,
+      fontFamily: 'sans-serif',
+      fontSize: 10,
+      text: Meteor.user().username,
+      fill: 'black'
+    });
+    characterLayer.add(usernameText);
+
     var weaponImg = new Image();
     weaponImg.onload = function() {
       var blob = new Kinetic.Sprite({
