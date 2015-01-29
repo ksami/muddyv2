@@ -60,70 +60,122 @@ if (Meteor.isClient) {
     });
 
     // Background layer //
-    var background = new Kinetic.Layer();
-    var backgroundImage = new Image();
-    backgroundImage.onload = function() {
+    var backgroundLayer = new Kinetic.Layer();
+    var backgroundImg = new Image();
+    backgroundImg.onload = function() {
       var blob = new Kinetic.Image({
         x: 0,
         y: 0,
         width: 640,
         height: 640,
-        image: backgroundImage
+        image: backgroundImg
       });
-
-      background.add(blob);
-      stage.add(background);
-      background.moveToBottom();
-      background.draw();
+      backgroundLayer.add(blob);
     };
 
+    var treeImg = new Image();
+    treeImg.onload = function() {
+      for (var i=0; i<10; i++) {
+        var blob = new Kinetic.Image({
+          x: Math.floor(Math.random()*586),
+          y: Math.floor(Math.random()*586),
+          width: 64,
+          height: 64,
+          image: treeImg
+        });
+        backgroundLayer.add(blob);
+      }
+      backgroundLayer.draw();
+    };
+    stage.add(backgroundLayer);
+    backgroundLayer.moveToBottom();
 
-    // Grid //
-    var grid = new Kinetic.Layer();
-    var gridLines = new Kinetic.Line({
-      x: 64,
-      y: 0,
-      points: [0, 0, 0, 640],
-      stroke: 'black'
-    });
-    grid.add(gridLines);
-    stage.add(grid);
-    grid.moveUp();
-    grid.draw();
+
+    // Grid layer//
+    var gridLayer = new Kinetic.Layer();
+
+    for(var i=_MAPSIZE.STEPY; i<=_MAPSIZE.Y; i+=_MAPSIZE.STEPY) {
+      var gridLinex = new Kinetic.Line({
+        x: 0,
+        y: i,
+        points: [0, 0, _MAPSIZE.X, 0],
+        stroke: 'black'
+      });
+      gridLayer.add(gridLinex);
+    }
+      
+    for(var i=_MAPSIZE.X/_MAPSIZE.DIV; i<=_MAPSIZE.X; i+=_MAPSIZE.X/_MAPSIZE.DIV) {
+      var gridLiney = new Kinetic.Line({
+        x: i,
+        y: 0,
+        points: [0, 0, 0, _MAPSIZE.Y],
+        stroke: 'black'
+      });
+      gridLayer.add(gridLiney);
+    }
+
+    stage.add(gridLayer);
+    gridLayer.moveUp();
+    gridLayer.draw();
 
 
     // Character layer // 
-    var layer = new Kinetic.Layer();
-    var character = new Image();
-    character.onload = function() {
+    var characterLayer = new Kinetic.Layer();
+    var characterImg = new Image();
+    characterImg.onload = function() {
       var blob = new Kinetic.Sprite({
-        x: 128,
+        x: 0,
         y: 0,
-        image: character,
+        image: characterImg,
         animation: 'walk',
         animations: {
           walk: [
             0,0,64,64,
             64,0,64,64
+          ],
+          idle: [
+            0,64,64,64
           ]
         },
         frameRate: 5,
         frameIndex: 0
       });
 
-      layer.add(blob);
-      stage.add(layer);
+      characterLayer.add(blob);
       blob.start();
     };
-    layer.moveToTop();
+
+    var weaponImg = new Image();
+    weaponImg.onload = function() {
+      var blob = new Kinetic.Sprite({
+        x: 0,
+        y: 0,
+        image: weaponImg,
+        animation: 'idle',
+        animations: {
+          idle: [
+            0,0,64,64
+          ]
+        },
+        frameRate: 5,
+        frameIndex: 0
+      });
+
+      characterLayer.add(blob);
+      stage.add(characterLayer);
+      blob.start();
+    };
+    //characterLayer.moveToTop();
 
 
     // src //
-    character.src = "/walk.png";
-    backgroundImage.src = "/map1.png";
+    characterImg.src = "/spritesheet.png";
+    weaponImg.src = "/stick.png";
+    backgroundImg.src = "/map1.png";
+    treeImg.src = "/tree.png";
 
     setInterval(function() {
-      layer.y(layer.y() + 1);
+      characterLayer.y(characterLayer.y() + 1);
     },200);
   };
 
