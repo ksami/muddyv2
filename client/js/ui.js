@@ -53,11 +53,13 @@ if (Meteor.isClient) {
 
     //  KINETIC  //
 
+    // Stage //
     var stage = new Kinetic.Stage({
       container: 'map',
       width: 640,
       height: 640
     });
+
 
     // Background layer //
     var backgroundLayer = new Kinetic.Layer();
@@ -165,7 +167,20 @@ if (Meteor.isClient) {
       stage.add(characterLayer);
       blob.start();
     };
-    //characterLayer.moveToTop();
+    
+
+    // Cursor layer //
+    var cursorLayer = new Kinetic.Layer();
+    var cursorImg = new Kinetic.Rect({
+      width: _MAPSIZE.STEPX,
+      height: _MAPSIZE.STEPY,
+      stroke: 'red',
+      strokeWidth: 2
+    })
+    cursorLayer.add(cursorImg);
+    stage.add(cursorLayer);
+    cursorLayer.moveToTop();
+    cursorLayer.draw();
 
 
     // src //
@@ -177,6 +192,36 @@ if (Meteor.isClient) {
     setInterval(function() {
       characterLayer.y(characterLayer.y() + 1);
     },200);
+
+    $(document).keydown(function(e) {
+      e.preventDefault();
+
+      // W key
+      if(e.which == 87) {
+        if(cursorLayer.y() - _MAPSIZE.STEPY >= 0) {
+          cursorLayer.y(cursorLayer.y() - _MAPSIZE.STEPY);
+        }
+      }
+      // S key
+      else if(e.which == 83) {
+        if(cursorLayer.y() + _MAPSIZE.STEPY < _MAPSIZE.Y) {
+          cursorLayer.y(cursorLayer.y() + _MAPSIZE.STEPY);
+        }
+      }
+      // A key
+      else if(e.which == 65) {
+        if(cursorLayer.x() - _MAPSIZE.STEPX >= 0) {
+          cursorLayer.x(cursorLayer.x() - _MAPSIZE.STEPX);
+        }
+      }
+      // D key
+      else if(e.which == 68) {
+        if(cursorLayer.x() + _MAPSIZE.STEPX < _MAPSIZE.X) {
+          cursorLayer.x(cursorLayer.x() + _MAPSIZE.STEPX);
+        }
+      }
+      cursorLayer.draw();
+    });
   };
 
 }
