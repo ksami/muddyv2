@@ -199,11 +199,9 @@ if (Meteor.isClient) {
     backgroundImg.src = "/map1.png";
     treeImg.src = "/tree.png";
 
-    setInterval(function() {
-      characterLayer.y(characterLayer.y() + 1);
-    },200);
 
-    $(document).keydown(function(e) {
+    //  Events  //
+    $("canvas").keydown(function(e) {
       e.preventDefault();
 
       // W key
@@ -232,6 +230,15 @@ if (Meteor.isClient) {
       }
       cursorLayer.draw();
     });
+
+    $("canvas").attr("tabindex", 0);
+    $(".page").attr("tabindex", 1);
+
+    $(".page").focus(function() {
+      $("canvas").focus();
+    });
+
+
   };
 
 }
