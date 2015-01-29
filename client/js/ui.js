@@ -51,21 +51,55 @@ if (Meteor.isClient) {
   
   Template.pageGame.rendered = function() {
 
-    // KINETIC //
+    //  KINETIC  //
 
     var stage = new Kinetic.Stage({
       container: 'map',
-      width: 578,
-      height: 200
+      width: 640,
+      height: 640
     });
-    var layer = new Kinetic.Layer();
 
-    var imageObj = new Image();
-    imageObj.onload = function() {
+    // Background layer //
+    var background = new Kinetic.Layer();
+    var backgroundImage = new Image();
+    backgroundImage.onload = function() {
+      var blob = new Kinetic.Image({
+        x: 0,
+        y: 0,
+        width: 640,
+        height: 640,
+        image: backgroundImage
+      });
+
+      background.add(blob);
+      stage.add(background);
+      background.moveToBottom();
+      background.draw();
+    };
+
+
+    // Grid //
+    var grid = new Kinetic.Layer();
+    var gridLines = new Kinetic.Line({
+      x: 64,
+      y: 0,
+      points: [0, 0, 0, 640],
+      stroke: 'black'
+    });
+    grid.add(gridLines);
+    stage.add(grid);
+    grid.moveUp();
+    grid.draw();
+
+
+    // Character layer // 
+    var layer = new Kinetic.Layer();
+    var character = new Image();
+    character.onload = function() {
       var blob = new Kinetic.Sprite({
-        x: 250,
-        y: 40,
-        image: imageObj,
+        x: 128,
+        y: 0,
+        image: character,
         animation: 'walk',
         animations: {
           walk: [
@@ -77,16 +111,20 @@ if (Meteor.isClient) {
         frameIndex: 0
       });
 
-      // add shape to layer
       layer.add(blob);
-
-      // add layer to stage
       stage.add(layer);
-
-      // start sprite animation
       blob.start();
     };
+    layer.moveToTop();
 
-    imageObj.src = "/walk.png";
+
+    // src //
+    character.src = "/walk.png";
+    backgroundImage.src = "/map1.png";
+
+    setInterval(function() {
+      layer.y(layer.y() + 1);
+    },200);
   };
+
 }

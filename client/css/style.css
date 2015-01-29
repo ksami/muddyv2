@@ -17,9 +17,9 @@ body {
 }
 
 .page {
-  max-width: 800px;
+  max-width: 1280px;
   margin: 0 auto;
-  min-height: 100%;
+  height: 100%;
   background: white;
 }
 
@@ -82,7 +82,7 @@ h1 {
 /* Game UI */
 
 #left-col {
-  width: 75%;
+  min-width: 640px;
 }
 
 #right-col {
@@ -90,7 +90,8 @@ h1 {
 }
 
 #map {
-
+  min-width: 640px;
+  min-height: 640px;
 }
 
 
