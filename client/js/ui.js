@@ -73,6 +73,7 @@ if (Meteor.isClient) {
         image: backgroundImg
       });
       backgroundLayer.add(blob);
+      backgroundLayer.draw();
     };
 
     var treeImg = new Image();

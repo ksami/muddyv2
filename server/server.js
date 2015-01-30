@@ -1,7 +1,7 @@
 if (Meteor.isServer) {
   // only expose player's info to player
   Meteor.publish("player", function () {
-    return _dbPlayers.find({ userId: this.userId });
+    return _dbPlayers.find({userId: this.userId});
   });
   
   Meteor.startup(function () {
@@ -20,7 +20,6 @@ if (Meteor.isServer) {
       // Create a new document in _dbPlayers
       _dbPlayers.insert(new Player(new Date(), user.username, user._id));
     }
-
   });
 
 
