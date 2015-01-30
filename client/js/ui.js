@@ -231,10 +231,15 @@ if (Meteor.isClient) {
       cursorLayer.draw();
     });
 
+
+    // Force canvas to be focus-able
     $("canvas").attr("tabindex", 1);
-    $(".page").attr("tabindex", 1);
+    $("canvas").focus();
 
     $(".page").focus(function() {
+      $("canvas").focus();
+    });
+    $(".kineticjs-content").click(function() {
       $("canvas").focus();
     });
 

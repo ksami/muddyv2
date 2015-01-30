@@ -1,18 +1,30 @@
 if (Meteor.isServer) {
-  // only expose subset of db
+  // only expose player's info to player
   Meteor.publish("player", function () {
-    return _dbPlayers.find({ owner: this.userId });
+    return _dbPlayers.find({ userId: this.userId });
   });
   
   Meteor.startup(function () {
     // code to run on server at startup
-    // testuser
-    _dbPlayers.insert({
-      createdAt: new Date(),
-      owner: 1,
-      username: "testuser"
+
+    // Add a new map controller for each map
+    _mapControllers["map1"] = new MapController({
+      name: "map1",
+      image: "map1.png"
     });
   });
+
+  Accounts.onCreateUser(function(options, user) {
+    // Create a new document in _dbPlayers
+    _dbPlayers.insert(new Player(new Date(), user.username, user._id));
+
+    // Keep the default behavior
+    // adds options.profile to user.profile
+    // then inserted into Meteor.users
+    if (options.profile)
+      user.profile = options.profile;
+    return user;
+  })
 
   _streamChat.permissions.write(function(eventName) {
     return true;
