@@ -51,42 +51,194 @@ if (Meteor.isClient) {
   
   Template.pageGame.rendered = function() {
 
-    // KINETIC //
+    //  KINETIC  //
 
+    // Stage //
     var stage = new Kinetic.Stage({
       container: 'map',
-      width: 578,
-      height: 200
+      width: 640,
+      height: 640
     });
-    var layer = new Kinetic.Layer();
 
-    var imageObj = new Image();
-    imageObj.onload = function() {
+
+    // Background layer //
+    var backgroundLayer = new Kinetic.Layer();
+    var backgroundImg = new Image();
+    backgroundImg.onload = function() {
+      var blob = new Kinetic.Image({
+        x: 0,
+        y: 0,
+        width: 640,
+        height: 640,
+        image: backgroundImg
+      });
+      backgroundLayer.add(blob);
+    };
+
+    var treeImg = new Image();
+    treeImg.onload = function() {
+      for (var i=0; i<10; i++) {
+        var blob = new Kinetic.Image({
+          x: Math.floor(Math.random()*586),
+          y: Math.floor(Math.random()*586),
+          width: 64,
+          height: 64,
+          image: treeImg
+        });
+        backgroundLayer.add(blob);
+      }
+      backgroundLayer.draw();
+    };
+    stage.add(backgroundLayer);
+    backgroundLayer.moveToBottom();
+
+
+    // Grid layer//
+    var gridLayer = new Kinetic.Layer();
+
+    for(var i=_MAPSIZE.STEPY; i<=_MAPSIZE.Y; i+=_MAPSIZE.STEPY) {
+      var gridLinex = new Kinetic.Line({
+        x: 0,
+        y: i,
+        points: [0, 0, _MAPSIZE.X, 0],
+        stroke: 'black'
+      });
+      gridLayer.add(gridLinex);
+    }
+      
+    for(var i=_MAPSIZE.X/_MAPSIZE.DIV; i<=_MAPSIZE.X; i+=_MAPSIZE.X/_MAPSIZE.DIV) {
+      var gridLiney = new Kinetic.Line({
+        x: i,
+        y: 0,
+        points: [0, 0, 0, _MAPSIZE.Y],
+        stroke: 'black'
+      });
+      gridLayer.add(gridLiney);
+    }
+
+    stage.add(gridLayer);
+    gridLayer.moveUp();
+    gridLayer.draw();
+
+
+    // Character layer // 
+    var characterLayer = new Kinetic.Layer();
+    var characterImg = new Image();
+    characterImg.onload = function() {
       var blob = new Kinetic.Sprite({
-        x: 250,
-        y: 40,
-        image: imageObj,
+        x: 0,
+        y: 0,
+        image: characterImg,
         animation: 'walk',
         animations: {
           walk: [
             0,0,64,64,
             64,0,64,64
+          ],
+          idle: [
+            0,64,64,64
           ]
         },
         frameRate: 5,
         frameIndex: 0
       });
 
-      // add shape to layer
-      layer.add(blob);
-
-      // add layer to stage
-      stage.add(layer);
-
-      // start sprite animation
+      characterLayer.add(blob);
       blob.start();
     };
 
-    imageObj.src = "/walk.png";
+    var usernameText = new Kinetic.Text({
+      x: 6,
+      y: 3,
+      fontFamily: 'sans-serif',
+      fontSize: 10,
+      text: Meteor.user().username,
+      fill: 'black'
+    });
+    characterLayer.add(usernameText);
+
+    var weaponImg = new Image();
+    weaponImg.onload = function() {
+      var blob = new Kinetic.Sprite({
+        x: 0,
+        y: 0,
+        image: weaponImg,
+        animation: 'idle',
+        animations: {
+          idle: [
+            0,0,64,64
+          ]
+        },
+        frameRate: 5,
+        frameIndex: 0
+      });
+
+      characterLayer.add(blob);
+      stage.add(characterLayer);
+      blob.start();
+    };
+    
+
+    // Cursor layer //
+    var cursorLayer = new Kinetic.Layer();
+    var cursorImg = new Kinetic.Rect({
+      width: _MAPSIZE.STEPX,
+      height: _MAPSIZE.STEPY,
+      stroke: 'red',
+      strokeWidth: 2
+    })
+    cursorLayer.add(cursorImg);
+    stage.add(cursorLayer);
+    cursorLayer.moveToTop();
+    cursorLayer.draw();
+
+
+    // src //
+    characterImg.src = "/spritesheet.png";
+    weaponImg.src = "/stick.png";
+    backgroundImg.src = "/map1.png";
+    treeImg.src = "/tree.png";
+
+
+    //  Events  //
+    $("canvas").keydown(function(e) {
+      e.preventDefault();
+
+      // W key
+      if(e.which == 87) {
+        if(cursorLayer.y() - _MAPSIZE.STEPY >= 0) {
+          cursorLayer.y(cursorLayer.y() - _MAPSIZE.STEPY);
+        }
+      }
+      // S key
+      else if(e.which == 83) {
+        if(cursorLayer.y() + _MAPSIZE.STEPY < _MAPSIZE.Y) {
+          cursorLayer.y(cursorLayer.y() + _MAPSIZE.STEPY);
+        }
+      }
+      // A key
+      else if(e.which == 65) {
+        if(cursorLayer.x() - _MAPSIZE.STEPX >= 0) {
+          cursorLayer.x(cursorLayer.x() - _MAPSIZE.STEPX);
+        }
+      }
+      // D key
+      else if(e.which == 68) {
+        if(cursorLayer.x() + _MAPSIZE.STEPX < _MAPSIZE.X) {
+          cursorLayer.x(cursorLayer.x() + _MAPSIZE.STEPX);
+        }
+      }
+      cursorLayer.draw();
+    });
+
+    $("canvas").attr("tabindex", 1);
+    $(".page").attr("tabindex", 1);
+
+    $(".page").focus(function() {
+      $("canvas").focus();
+    });
+
+
   };
+
 }

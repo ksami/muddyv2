@@ -27,8 +27,9 @@ if (Meteor.isServer) {
       {from: "Admin", text: "Ugh."},
       {from: "Admin", text: "I'm sleepy..."},
       {from: "Admin", text: "We done yet?"},
-      {from: "Admin", text: "*Yawns*"}
+      {from: "Admin", text: "*Yawns*"},
+      {from: "Admin", text: "This is taking really long >.<"}
     ];
-    _streamChat.emit('message', msgs[Math.floor(Math.random()*3)]);
+    _streamChat.emit('message', msgs[Math.floor(Math.random()*4)]);
   }, 5000);
 }
