@@ -231,7 +231,7 @@ if (Meteor.isClient) {
       cursorLayer.draw();
     });
 
-    $("canvas").attr("tabindex", 0);
+    $("canvas").attr("tabindex", 1);
     $(".page").attr("tabindex", 1);
 
     $(".page").focus(function() {
