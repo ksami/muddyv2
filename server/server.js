@@ -14,17 +14,15 @@ if (Meteor.isServer) {
     });
   });
 
-  Accounts.onCreateUser(function(options, user) {
-    // Create a new document in _dbPlayers
-    _dbPlayers.insert(new Player(new Date(), user.username, user._id));
 
-    // Keep the default behavior
-    // adds options.profile to user.profile
-    // then inserted into Meteor.users
-    if (options.profile)
-      user.profile = options.profile;
-    return user;
-  })
+  Meteor.users.find().observe({
+    added: function(user) {
+      // Create a new document in _dbPlayers
+      _dbPlayers.insert(new Player(new Date(), user.username, user._id));
+    }
+
+  });
+
 
   _streamChat.permissions.write(function(eventName) {
     return true;

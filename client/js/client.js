@@ -9,7 +9,7 @@ if (Meteor.isClient) {
   // accept own info
   Meteor.subscribe("player");
 
-  // initialise messages array
-  // Session.setDefault('messages', []);
-
+  console.log(_dbPlayers.find().fetch());
+  // Session.set("player", _dbPlayers.find());
+  // console.log(Session.get("player"));
 }
