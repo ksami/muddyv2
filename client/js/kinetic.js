@@ -130,8 +130,8 @@ kineticRender = function() {
     blob.start();
   };
   stage.add(characterLayer);
-  characterLayer.x(player.at.x*_MAPSIZE.STEPX);
-  characterLayer.y(player.at.y*_MAPSIZE.STEPY);
+  characterLayer.x(player.at.x);
+  characterLayer.y(player.at.y);
   
 
   // Cursor layer //
@@ -145,6 +145,8 @@ kineticRender = function() {
   cursorLayer.add(cursorImg);
   stage.add(cursorLayer);
   cursorLayer.moveToTop();
+  cursorLayer.x(player.at.x);
+  cursorLayer.y(player.at.y);
   cursorLayer.draw();
 
 
@@ -173,16 +175,16 @@ kineticRender = function() {
     }
     // A key
     else if(e.which == 65) {
-      if(cursorLayer.x() - _MAPSIZE.STEPX >= 0) {
+      if(cursorLayer.x() - _MAPSIZE.STEPX >= 0 && player.at.x - _MAPSIZE.STEPX >= 0) {
         cursorLayer.x(cursorLayer.x() - _MAPSIZE.STEPX);
+        Meteor.call("movePlayer", {x: -1*_MAPSIZE.STEPX, y: 0*_MAPSIZE.STEPY});
       }
     }
     // D key
     else if(e.which == 68) {
-      if(cursorLayer.x() + _MAPSIZE.STEPX < _MAPSIZE.X) {
+      if(cursorLayer.x() + _MAPSIZE.STEPX < _MAPSIZE.X && player.at.x + _MAPSIZE.STEPX < _MAPSIZE.X) {
         cursorLayer.x(cursorLayer.x() + _MAPSIZE.STEPX);
         Meteor.call("movePlayer", {x: 1*_MAPSIZE.STEPX, y: 0*_MAPSIZE.STEPY});
-        console.log("d key pressed");
       }
     }
     cursorLayer.draw();
