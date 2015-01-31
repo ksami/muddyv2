@@ -1,6 +1,6 @@
 if (Meteor.isServer) {
   // only expose player's info to player
-  Meteor.publish("player", function () {
+  Meteor.publish("player", function() {
     return _dbPlayers.find({userId: this.userId});
   });
   

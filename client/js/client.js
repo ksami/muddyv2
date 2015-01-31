@@ -6,9 +6,14 @@ if (Meteor.isClient) {
     passwordSignupFields: "USERNAME_ONLY"
   });
 
-  // accept own info
-  Meteor.subscribe("player");
+  Session.set("dbReady", false);
 
-  // Session.set("player", _dbPlayers.find());
+  // accept own info
+  Meteor.subscribe("player", function() {
+    //Session.set("player", _dbPlayers.find().fetch()[0]);
+    console.log("db ready");
+    Session.set("dbReady", true);
+  });
+
   // console.log(Session.get("player"));
 }
