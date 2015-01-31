@@ -1,4 +1,7 @@
 kineticRender = function() {
+  var player = _dbPlayers.findOne();
+  console.log("tracker autorun");
+  console.log(player.name);
 
   //  KINETIC  //
 
@@ -127,7 +130,8 @@ kineticRender = function() {
     blob.start();
   };
   stage.add(characterLayer);
-  //characterLayer.x(player.at.x)
+  characterLayer.x(player.at.x*_MAPSIZE.STEPX);
+  characterLayer.y(player.at.y*_MAPSIZE.STEPY);
   
 
   // Cursor layer //
@@ -145,17 +149,9 @@ kineticRender = function() {
 
 
   // src //
-  var player = _dbPlayers.findOne();
-  console.log("tracker autorun");
-  console.log(player.name);
-  //console.log(Session.get("player").name);
-  //characterImg.src = "/spritesheet.png";
   characterImg.src = player.avatar.base;
-  // weaponImg.src = "/stick.png";
   weaponImg.src = player.avatar.weapon;
-  backgroundImg.src = "map1.png";
-  console.log(_mapControllers[player.at.map]);
-  //backgroundImg.src = _mapControllers[player.at.map].image;
+  backgroundImg.src = _mapControllers[player.at.map].image;
   //treeImg.src = "/tree.png";
 
 
@@ -185,7 +181,7 @@ kineticRender = function() {
     else if(e.which == 68) {
       if(cursorLayer.x() + _MAPSIZE.STEPX < _MAPSIZE.X) {
         cursorLayer.x(cursorLayer.x() + _MAPSIZE.STEPX);
-        //Meteor.call("movePlayer", {x: 1, y: 0});
+        Meteor.call("movePlayer", {x: 1*_MAPSIZE.STEPX, y: 0*_MAPSIZE.STEPY});
         console.log("d key pressed");
       }
     }

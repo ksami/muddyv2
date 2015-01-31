@@ -11,8 +11,12 @@ if (Meteor.isServer) {
 
   Meteor.users.find().observe({
     added: function(user) {
-      // Create a new document in _dbPlayers
-      _dbPlayers.insert(new Player(new Date(), user.username, user._id));
+      var foundArray = _dbPlayers.find({name: user.username}).fetch();
+      if(foundArray.length == 0) {
+        // Create a new document in _dbPlayers
+        _dbPlayers.insert(new Player(new Date(), user.username, user._id));
+        console.log("new Player added");
+      }
     }
   });
 
