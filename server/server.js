@@ -6,12 +6,6 @@ if (Meteor.isServer) {
   
   Meteor.startup(function () {
     // code to run on server at startup
-
-    // Add a new map controller for each map
-    _mapControllers["map1"] = new MapController({
-      name: "map1",
-      image: "map1.png"
-    });
   });
 
 

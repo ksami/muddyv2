@@ -124,9 +124,10 @@ kineticRender = function() {
     });
 
     characterLayer.add(blob);
-    stage.add(characterLayer);
     blob.start();
   };
+  stage.add(characterLayer);
+  //characterLayer.x(player.at.x)
   
 
   // Cursor layer //
@@ -148,9 +149,13 @@ kineticRender = function() {
   console.log("tracker autorun");
   console.log(player.name);
   //console.log(Session.get("player").name);
-  characterImg.src = "/spritesheet.png";
-  weaponImg.src = "/stick.png";
-  backgroundImg.src = "/map1.png";
+  //characterImg.src = "/spritesheet.png";
+  characterImg.src = player.avatar.base;
+  // weaponImg.src = "/stick.png";
+  weaponImg.src = player.avatar.weapon;
+  backgroundImg.src = "map1.png";
+  console.log(_mapControllers[player.at.map]);
+  //backgroundImg.src = _mapControllers[player.at.map].image;
   //treeImg.src = "/tree.png";
 
 

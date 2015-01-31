@@ -15,5 +15,7 @@ if (Meteor.isClient) {
     Session.set("dbReady", true);
   });
 
+            console.log(_mapControllers["map1"]);
+
   // console.log(Session.get("player"));
 }
