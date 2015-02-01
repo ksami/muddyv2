@@ -42,8 +42,7 @@ kineticRender = function() {
   //   }
   //   backgroundLayer.draw();
   // };
-  stage.add(backgroundLayer);
-  backgroundLayer.moveToBottom();
+
 
 
   // Grid layer//
@@ -69,9 +68,7 @@ kineticRender = function() {
     gridLayer.add(gridLiney);
   }
 
-  stage.add(gridLayer);
-  gridLayer.moveUp();
-  gridLayer.draw();
+
 
 
   // Character layer // 
@@ -129,9 +126,7 @@ kineticRender = function() {
     characterLayer.add(blob);
     blob.start();
   };
-  stage.add(characterLayer);
-  characterLayer.x(player.at.x);
-  characterLayer.y(player.at.y);
+
   
 
   // Cursor layer //
@@ -143,11 +138,7 @@ kineticRender = function() {
     strokeWidth: 2
   })
   cursorLayer.add(cursorImg);
-  stage.add(cursorLayer);
-  cursorLayer.moveToTop();
-  cursorLayer.x(player.at.x);
-  cursorLayer.y(player.at.y);
-  cursorLayer.draw();
+
 
 
   // src //
@@ -155,6 +146,28 @@ kineticRender = function() {
   weaponImg.src = player.avatar.weapon;
   backgroundImg.src = _mapControllers[player.at.map].image;
   //treeImg.src = "/tree.png";
+
+
+  // Background
+  stage.add(backgroundLayer);
+  backgroundLayer.moveToBottom();
+
+  // Grid
+  stage.add(gridLayer);
+  gridLayer.moveUp();
+  gridLayer.draw();
+  
+  // Character
+  stage.add(characterLayer);
+  characterLayer.x(player.at.x);
+  characterLayer.y(player.at.y);
+  
+  // Cursor
+  stage.add(cursorLayer);
+  cursorLayer.moveToTop();
+  cursorLayer.x(player.at.x);
+  cursorLayer.y(player.at.y);
+  cursorLayer.draw();
 
 
   //  Events  //
