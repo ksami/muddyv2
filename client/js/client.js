@@ -7,7 +7,8 @@ if (Meteor.isClient) {
   });
 
   Session.set("dbReady", false);
-  Session.setDefault("turns", {playerTurn: false, mobTurn: false});
+  Session.set("turns", {playerTurn: false, mobTurn: false});
+  //Session.set("cursor", {x: 0, y: 0});
 
   // accept own info
   Meteor.subscribe("player", function() {

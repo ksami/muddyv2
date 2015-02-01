@@ -1,11 +1,16 @@
 if (Meteor.isClient) {
 
   Tracker.autorun(function() {
-    turns = Session.get("turns");
-    console.log("tracker autorun turn");
+    var player = _dbPlayers.findOne();
+    var turns = Session.get("turns");
+    
     if(turns.playerTurn) {
-      console.log("player turn");
-      Meteor.call("movePlayer", {x: 0, y:64});
+      var cursor = Session.get("cursor");
+      console.log(cursor);
+      if(cursor.x != player.at.x || cursor.y != player.at.y) {
+        console.log("calling moveplayer");
+        Meteor.call("movePlayer", cursor);
+      }
     }
   })
 

@@ -190,15 +190,20 @@ kineticRender = function() {
     else if(e.which == 65) {
       if(cursorLayer.x() - _MAPSIZE.STEPX >= 0 && player.at.x - _MAPSIZE.STEPX >= 0) {
         cursorLayer.x(cursorLayer.x() - _MAPSIZE.STEPX);
-        Meteor.call("movePlayer", {x: -1*_MAPSIZE.STEPX, y: 0*_MAPSIZE.STEPY});
+        //Meteor.call("movePlayer", {x: -1*_MAPSIZE.STEPX, y: 0*_MAPSIZE.STEPY});
       }
     }
     // D key
     else if(e.which == 68) {
       if(cursorLayer.x() + _MAPSIZE.STEPX < _MAPSIZE.X && player.at.x + _MAPSIZE.STEPX < _MAPSIZE.X) {
         cursorLayer.x(cursorLayer.x() + _MAPSIZE.STEPX);
-        Meteor.call("movePlayer", {x: 1*_MAPSIZE.STEPX, y: 0*_MAPSIZE.STEPY});
+        //Meteor.call("movePlayer", {x: 1*_MAPSIZE.STEPX, y: 0*_MAPSIZE.STEPY});
       }
+    }
+    // E key commit target
+    else if(e.which == 69) {
+      Session.set("cursor", {x: cursorLayer.x(), y: cursorLayer.y()});
+      console.log("e key pressed");
     }
     cursorLayer.draw();
   });
