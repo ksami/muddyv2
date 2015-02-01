@@ -53,6 +53,5 @@ if (Meteor.isServer) {
     _streamTimer.emit('tick', {playerTurn: !playerTurn, mobTurn: !mobTurn});
     playerTurn = !playerTurn;
     mobTurn = !mobTurn;
-    console.log("tick");
   }, 5000);
 }
