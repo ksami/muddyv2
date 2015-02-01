@@ -202,7 +202,8 @@ kineticRender = function() {
     }
     // E key commit target
     else if(e.which == 69) {
-      Session.set("cursor", {x: cursorLayer.x(), y: cursorLayer.y()});
+      //Session.set("cursor", {x: cursorLayer.x(), y: cursorLayer.y()});
+      _cursor = {x: cursorLayer.x(), y: cursorLayer.y()};
       console.log("e key pressed");
     }
     cursorLayer.draw();

@@ -8,13 +8,15 @@ if (Meteor.isClient) {
 
   Session.set("dbReady", false);
   Session.set("turns", {playerTurn: false, mobTurn: false});
-  //Session.set("cursor", {x: 0, y: 0});
 
   // accept own info
   Meteor.subscribe("player", function() {
     //Session.set("player", _dbPlayers.find().fetch()[0]);
+    var player = _dbPlayers.findOne();
     console.log("db ready");
     Session.set("dbReady", true);
+    _cursor = {x: player.at.x, y: player.at.y};
+    //Session.set("cursor", {x:player.at.x, y:player.at.y});
   });
 
   // Event listener for _streamTimer
