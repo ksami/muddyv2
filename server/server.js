@@ -24,8 +24,14 @@ if (Meteor.isServer) {
   _streamChat.permissions.write(function(eventName) {
     return true;
   });
-
   _streamChat.permissions.read(function(eventName) {
+    return true;
+  });
+
+  _streamTimer.permissions.write(function(eventName) {
+    return true;
+  });
+  _streamTimer.permissions.read(function(eventName) {
     return true;
   });
 
@@ -38,5 +44,15 @@ if (Meteor.isServer) {
       {from: "Admin", text: "This is taking really long >.<"}
     ];
     _streamChat.emit('message', msgs[Math.floor(Math.random()*4)]);
+  }, 5000);
+
+  var playerTurn = true;
+  var mobTurn = false;
+
+  Meteor.setInterval(function() {
+    _streamTimer.emit('tick', {playerTurn: !playerTurn, mobTurn: !mobTurn});
+    playerTurn = !playerTurn;
+    mobTurn = !mobTurn;
+    console.log("tick");
   }, 5000);
 }

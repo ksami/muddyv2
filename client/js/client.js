@@ -15,5 +15,10 @@ if (Meteor.isClient) {
     Session.set("dbReady", true);
   });
 
+  // Event listener for _streamTimer
+  _streamTimer.on('tick', function(turns) {
+    console.log(turns);
+  });
+
   // console.log(Session.get("player"));
 }
