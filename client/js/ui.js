@@ -8,8 +8,8 @@ if (Meteor.isClient) {
       {action: {type: "skill", val: 4}, text: "skill"},
       {action: {type: "item", val: 1}, text: "item"}
     ],
-    player: function() {
-      return _dbPlayers.findOne();
+    turns: function() {
+      return Session.get("turns");
     }
   });
 

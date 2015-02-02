@@ -7,7 +7,7 @@ if (Meteor.isClient) {
   });
 
   Session.set("dbReady", false);
-  Session.set("turns", {playerTurn: false, mobTurn: false});
+  Session.set("ticks", {val: 0, maxval: false});
 
   // accept own info
   Meteor.subscribe("player", function() {
@@ -20,8 +20,8 @@ if (Meteor.isClient) {
   });
 
   // Event listener for _streamTimer
-  _streamTimer.on('tick', function(turns) {
-    Session.set("turns", turns);
+  _streamTimer.on('tick', function(tick) {
+    Session.set("ticks", tick);
   });
 
   // console.log(Session.get("player"));

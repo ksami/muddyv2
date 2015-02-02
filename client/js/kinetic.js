@@ -102,7 +102,7 @@ kineticRender = function() {
     y: 3,
     fontFamily: 'sans-serif',
     fontSize: 10,
-    text: Meteor.user().username,
+    text: player.name,
     fill: 'black'
   });
   characterLayer.add(usernameText);

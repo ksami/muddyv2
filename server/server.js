@@ -46,12 +46,15 @@ if (Meteor.isServer) {
     _streamChat.emit('message', msgs[Math.floor(Math.random()*4)]);
   }, 5000);
 
-  var playerTurn = true;
-  var mobTurn = false;
+  var val = 2048682739;
+  var initVal = 2048682739;
 
   Meteor.setInterval(function() {
-    _streamTimer.emit('tick', {playerTurn: !playerTurn, mobTurn: !mobTurn});
-    playerTurn = !playerTurn;
-    mobTurn = !mobTurn;
-  }, 5000);
+    _streamTimer.emit('tick', {val: val});
+    val-=1;
+    if(val <= 0) {
+      val = initVal;
+    }
+  }, 1000);
+
 }
