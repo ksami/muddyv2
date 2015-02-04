@@ -73,13 +73,13 @@ kineticRender = function(player, imgs) {
 
   // Cursor layer //
   var cursorLayer = new Kinetic.Layer();
-  var cursorImg = new Kinetic.Rect({
+  var cursor = new Kinetic.Rect({
     width: _MAPSIZE.STEPX,
     height: _MAPSIZE.STEPY,
     stroke: 'red',
     strokeWidth: 2
   })
-  cursorLayer.add(cursorImg);
+  cursorLayer.add(cursor);
 
 
 
@@ -140,9 +140,18 @@ kineticRender = function(player, imgs) {
     else if(e.which == 69) {
       //Session.set("cursor", {x: cursorLayer.x(), y: cursorLayer.y()});
       _cursor = {x: cursorLayer.x(), y: cursorLayer.y()};
+      cursor.stroke('blue');
       console.log("e key pressed");
     }
     cursorLayer.draw();
+  });
+
+  $("canvas").keyup(function(e) {
+    // E key commit target
+    if(e.which == 69) {
+      cursor.stroke('red');
+      cursorLayer.draw();
+    }
   });
 
 }
