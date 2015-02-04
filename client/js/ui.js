@@ -18,9 +18,6 @@ if (Meteor.isClient) {
   Template.pageGame.events({
     'click button': function () {
       //debug
-      var player = _dbPlayers.findOne({name: Meteor.user().username});
-      console.log(player);
-      console.log(_mapControllers[player.at.map]);
     },
     'submit .form-chat': function(event) {
       var msg = {from: Meteor.user().username, text: event.target.inputChat.value};

@@ -1,10 +1,10 @@
-if (Meteor.isClient && Meteor.user()) {
+if (Meteor.isClient) {
 
 
   //todo: should be moved to MapController
   // Triggers: dbReady, player, ticks
   Tracker.autorun(function() {
-    if(Session.get("dbReady")){
+    if(Session.get("dbReady") && Meteor.user()){
 
       var player = _dbPlayers.findOne({name: Meteor.user().username});
       var tick = Session.get("ticks");

@@ -1,4 +1,6 @@
 kineticRender = function(player, imgs) {
+  var map = _mapControllers[player.at.map];
+  console.log(map);
 
   //  KINETIC  //
 
@@ -17,7 +19,7 @@ kineticRender = function(player, imgs) {
     y: 0,
     width: 640,
     height: 640,
-    image: imgs[_mapControllers[player.at.map].image]
+    image: imgs[map.image]
   });
   backgroundLayer.add(background);
   backgroundLayer.draw();
@@ -43,21 +45,21 @@ kineticRender = function(player, imgs) {
   // Grid layer//
   var gridLayer = new Kinetic.Layer();
 
-  for(var i=_MAPSIZE.STEPY; i<=_MAPSIZE.Y; i+=_MAPSIZE.STEPY) {
+  for(var i=map.size.stepy; i<=map.size.y; i+=map.size.stepy) {
     var gridLinex = new Kinetic.Line({
       x: 0,
       y: i,
-      points: [0, 0, _MAPSIZE.X, 0],
+      points: [0, 0, map.size.x, 0],
       stroke: 'black'
     });
     gridLayer.add(gridLinex);
   }
     
-  for(var i=_MAPSIZE.X/_MAPSIZE.DIV; i<=_MAPSIZE.X; i+=_MAPSIZE.X/_MAPSIZE.DIV) {
+  for(var i=map.size.stepx; i<=map.size.x; i+=map.size.stepx) {
     var gridLiney = new Kinetic.Line({
       x: i,
       y: 0,
-      points: [0, 0, 0, _MAPSIZE.Y],
+      points: [0, 0, 0, map.size.y],
       stroke: 'black'
     });
     gridLayer.add(gridLiney);
@@ -74,8 +76,8 @@ kineticRender = function(player, imgs) {
   // Cursor layer //
   var cursorLayer = new Kinetic.Layer();
   var cursor = new Kinetic.Rect({
-    width: _MAPSIZE.STEPX,
-    height: _MAPSIZE.STEPY,
+    width: map.size.stepx,
+    height: map.size.stepy,
     stroke: 'red',
     strokeWidth: 2
   })
@@ -112,28 +114,26 @@ kineticRender = function(player, imgs) {
 
     // W key
     if(e.which == 87) {
-      if(cursorLayer.y() - _MAPSIZE.STEPY >= 0) {
-        cursorLayer.y(cursorLayer.y() - _MAPSIZE.STEPY);
+      if(cursorLayer.y() - map.size.stepy >= 0) {
+        cursorLayer.y(cursorLayer.y() - map.size.stepy);
       }
     }
     // S key
     else if(e.which == 83) {
-      if(cursorLayer.y() + _MAPSIZE.STEPY < _MAPSIZE.Y) {
-        cursorLayer.y(cursorLayer.y() + _MAPSIZE.STEPY);
+      if(cursorLayer.y() + map.size.stepy < map.size.y) {
+        cursorLayer.y(cursorLayer.y() + map.size.stepy);
       }
     }
     // A key
     else if(e.which == 65) {
-      if(cursorLayer.x() - _MAPSIZE.STEPX >= 0 && player.at.x - _MAPSIZE.STEPX >= 0) {
-        cursorLayer.x(cursorLayer.x() - _MAPSIZE.STEPX);
-        //Meteor.call("movePlayer", {x: -1*_MAPSIZE.STEPX, y: 0*_MAPSIZE.STEPY});
+      if(cursorLayer.x() - map.size.stepx >= 0) {
+        cursorLayer.x(cursorLayer.x() - map.size.stepx);
       }
     }
     // D key
     else if(e.which == 68) {
-      if(cursorLayer.x() + _MAPSIZE.STEPX < _MAPSIZE.X && player.at.x + _MAPSIZE.STEPX < _MAPSIZE.X) {
-        cursorLayer.x(cursorLayer.x() + _MAPSIZE.STEPX);
-        //Meteor.call("movePlayer", {x: 1*_MAPSIZE.STEPX, y: 0*_MAPSIZE.STEPY});
+      if(cursorLayer.x() + map.size.stepx < map.size.x) {
+        cursorLayer.x(cursorLayer.x() + map.size.stepx);
       }
     }
     // E key commit target
@@ -147,6 +147,8 @@ kineticRender = function(player, imgs) {
   });
 
   $("canvas").keyup(function(e) {
+    e.preventDefault();
+
     // E key commit target
     if(e.which == 69) {
       cursor.stroke('red');
