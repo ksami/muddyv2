@@ -38,6 +38,7 @@ if (Meteor.isServer) {
 
   Meteor._onLogout = function(userId) {
     console.log(userId + " just logged out");
+    //debug
     //_dbPlayers.update({userId: userId}, {$set: {isLoggedIn: false}});
   };
 

@@ -11,19 +11,17 @@ kineticRender = function(player, imgs) {
 
 
   // Background layer //
-  // var backgroundLayer = new Kinetic.Layer();
-  // var backgroundImg = new Image();
-  // backgroundImg.onload = function() {
-  //   var blob = new Kinetic.Image({
-  //     x: 0,
-  //     y: 0,
-  //     width: 640,
-  //     height: 640,
-  //     image: backgroundImg
-  //   });
-  //   backgroundLayer.add(blob);
-  //   backgroundLayer.draw();
-  // };
+  var backgroundLayer = new Kinetic.Layer();
+  var background = new Kinetic.Image({
+    x: 0,
+    y: 0,
+    width: 640,
+    height: 640,
+    image: imgs[_mapControllers[player.at.map].image]
+  });
+  backgroundLayer.add(background);
+  backgroundLayer.draw();
+
 
   // var treeImg = new Image();
   // treeImg.onload = function() {
@@ -91,8 +89,8 @@ kineticRender = function(player, imgs) {
 
 
   // Background
-  //stage.add(backgroundLayer);
-  //backgroundLayer.moveToBottom();
+  stage.add(backgroundLayer);
+  backgroundLayer.moveToBottom();
 
   // Grid
   stage.add(gridLayer);
