@@ -3,6 +3,11 @@ if (Meteor.isServer) {
   Meteor.publish("player", function() {
     return _dbPlayers.find({userId: this.userId});
   });
+  // and basic info about other players on same map
+  Meteor.publish("playersInMap", function() {
+    var playerAtMap = _dbPlayers.findOne({userId: this.userId}, {fields: {"at.map": 1}});
+    return _dbPlayers.find({"at.map": playerAtMap}, {fields: {name: 1, avatar: 1, at: 1}});
+  });
   
   Meteor.startup(function () {
     // code to run on server at startup
@@ -19,6 +24,7 @@ if (Meteor.isServer) {
       }
     }
   });
+
 
 
   _streamChat.permissions.write(function(eventName) {
@@ -56,5 +62,4 @@ if (Meteor.isServer) {
       val = initVal;
     }
   }, 1000);
-
 }

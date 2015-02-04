@@ -1,10 +1,12 @@
-if (Meteor.isClient) {
+if (Meteor.isClient && Meteor.user()) {
 
+
+  //todo: should be moved to MapController
   // Triggers: dbReady, player, ticks
   Tracker.autorun(function() {
     if(Session.get("dbReady")){
 
-      var player = _dbPlayers.findOne();
+      var player = _dbPlayers.findOne({name: Meteor.user().username});
       var tick = Session.get("ticks");
       var map = _mapControllers[player.at.map];
       var turn = map.turns;
@@ -31,12 +33,11 @@ if (Meteor.isClient) {
   Tracker.autorun(function() {
     if(Session.get("dbReady")){
     
-      var player = _dbPlayers.findOne();
+      var player = _dbPlayers.findOne({name: Meteor.user().username});
       var turnSwitch = Session.get("turnSwitch");
 
       // Players' actions take effect once it switches to mobs' turn
       if(turnSwitch.turn == "mob") {
-        //var cursor = Session.get("cursor");
         console.log(_cursor);
         if(_cursor.x != player.at.x || _cursor.y != player.at.y) {
           console.log("calling moveplayer");
