@@ -1,13 +1,18 @@
 if (Meteor.isServer) {
-  // only expose player's info to player
-  Meteor.publish("player", function() {
-    return _dbPlayers.find({userId: this.userId});
-  });
-  // and basic info about other players on same map
-  Meteor.publish("playersInMap", function() {
-    var playerAtMap = _dbPlayers.findOne({userId: this.userId}, {fields: {"at.map": 1}});
-    return _dbPlayers.find({"at.map": playerAtMap}, {fields: {name: 1, avatar: 1, at: 1}});
-  });
+    // only expose player's info to player
+    Meteor.publish("player", function() {
+      return _dbPlayers.find({userId: this.userId});
+    });
+    // and basic info about other players on same map
+    Meteor.publish("playersInMap", function() {
+      var playerAtMap = _dbPlayers.findOne({userId: this.userId}, {fields: {"at.map": 1}});
+      if(playerAtMap != null) {
+        return _dbPlayers.find({"at.map": playerAtMap.at.map, isLoggedIn: true}, {fields: {name: 1, avatar: 1, at: 1}});
+      }
+      else {
+        return null;
+      }
+    });
   
   Meteor.startup(function () {
     // code to run on server at startup
@@ -24,6 +29,17 @@ if (Meteor.isServer) {
       }
     }
   });
+
+
+  Meteor._onLogin = function(userId) {
+    console.log(userId + " just logged in");
+    _dbPlayers.update({userId: userId}, {$set: {isLoggedIn: true}});
+  };
+
+  Meteor._onLogout = function(userId) {
+    console.log(userId + " just logged out");
+    //_dbPlayers.update({userId: userId}, {$set: {isLoggedIn: false}});
+  };
 
 
 

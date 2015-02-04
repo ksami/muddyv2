@@ -12,6 +12,7 @@ if (Meteor.isClient) {
     if(Meteor.user() != null) {
       console.log("logged in");
       Session.set("dbReady", false);
+      Session.set("imagesReady", false);
       Session.set("ticks", {val: 0, maxval: false});
 
       // accept own info

@@ -1,7 +1,4 @@
-kineticRender = function() {
-  var player = _dbPlayers.findOne({name: Meteor.user().username});
-  console.log("tracker autorun");
-  console.log(player.name);
+kineticRender = function(player, imgs) {
 
   //  KINETIC  //
 
@@ -14,19 +11,19 @@ kineticRender = function() {
 
 
   // Background layer //
-  var backgroundLayer = new Kinetic.Layer();
-  var backgroundImg = new Image();
-  backgroundImg.onload = function() {
-    var blob = new Kinetic.Image({
-      x: 0,
-      y: 0,
-      width: 640,
-      height: 640,
-      image: backgroundImg
-    });
-    backgroundLayer.add(blob);
-    backgroundLayer.draw();
-  };
+  // var backgroundLayer = new Kinetic.Layer();
+  // var backgroundImg = new Image();
+  // backgroundImg.onload = function() {
+  //   var blob = new Kinetic.Image({
+  //     x: 0,
+  //     y: 0,
+  //     width: 640,
+  //     height: 640,
+  //     image: backgroundImg
+  //   });
+  //   backgroundLayer.add(blob);
+  //   backgroundLayer.draw();
+  // };
 
   // var treeImg = new Image();
   // treeImg.onload = function() {
@@ -70,8 +67,9 @@ kineticRender = function() {
 
 
   var mapplayers = _dbPlayers.find({"at.map": player.at.map}, {fields: {name: 1, avatar: 1, at: 1}}).fetch();
-
-  addPlayerCharacters(stage, mapplayers);
+  console.log("mapplayers\n");
+  console.log(mapplayers);
+  addPlayerCharacters(stage, mapplayers, imgs);
 
 
 
@@ -88,13 +86,13 @@ kineticRender = function() {
 
 
   // src //
-  backgroundImg.src = _mapControllers[player.at.map].image;
+  //backgroundImg.src = _mapControllers[player.at.map].image;
   //treeImg.src = "/tree.png";
 
 
   // Background
-  stage.add(backgroundLayer);
-  backgroundLayer.moveToBottom();
+  //stage.add(backgroundLayer);
+  //backgroundLayer.moveToBottom();
 
   // Grid
   stage.add(gridLayer);
@@ -152,36 +150,39 @@ kineticRender = function() {
 }
 
 
-addPlayerCharacters = function(stage, players) {
-  for (var i = players.length - 1; i >= 0; i--) {
+addPlayerCharacters = function(stage, players, imgs) {
+  console.log("---adding players---");
+
+  var layers = [];
+
+  for (var i = 0; i < players.length; i++) {
     var playerCharacter = players[i];
     console.log(playerCharacter.name);
 
     // Character layer // 
-    var characterLayer = new Kinetic.Layer();
-    var characterImg = new Image();
-    characterImg.onload = function() {
-      var blob = new Kinetic.Sprite({
-        x: 0,
-        y: 0,
-        image: characterImg,
-        animation: 'idle',
-        animations: {
-          walk: [
-            0,0,64,64,
-            64,0,64,64
-          ],
-          idle: [
-            0,64,64,64
-          ]
-        },
-        frameRate: 5,
-        frameIndex: 0
-      });
+    layers[i] = new Kinetic.Layer();
 
-      characterLayer.add(blob);
-      blob.start();
-    };
+    var base = new Kinetic.Sprite({
+      x: 0,
+      y: 0,
+      image: imgs[playerCharacter.avatar.base],
+      animation: 'idle',
+      animations: {
+        walk: [
+          0,0,64,64,
+          64,0,64,64
+        ],
+        idle: [
+          0,64,64,64
+        ]
+      },
+      frameRate: 5,
+      frameIndex: 0
+    });
+
+    layers[i].add(base);
+    base.start();
+
 
     var usernameText = new Kinetic.Text({
       x: 6,
@@ -191,34 +192,31 @@ addPlayerCharacters = function(stage, players) {
       text: playerCharacter.name,
       fill: 'black'
     });
-    characterLayer.add(usernameText);
+    layers[i].add(usernameText);
 
-    var weaponImg = new Image();
-    weaponImg.onload = function() {
-      var blob = new Kinetic.Sprite({
-        x: 0,
-        y: 0,
-        image: weaponImg,
-        animation: 'idle',
-        animations: {
-          idle: [
-            0,0,64,64
-          ]
-        },
-        frameRate: 5,
-        frameIndex: 0
-      });
+    var weapon = new Kinetic.Sprite({
+      x: 0,
+      y: 0,
+      image: imgs[playerCharacter.avatar.weapon],
+      animation: 'idle',
+      animations: {
+        idle: [
+          0,0,64,64
+        ]
+      },
+      frameRate: 5,
+      frameIndex: 0
+    });
 
-      characterLayer.add(blob);
-      blob.start();
-    };
+    layers[i].add(weapon);
+    weapon.start();
+
 
     // Character
-    stage.add(characterLayer);
-    characterImg.src = playerCharacter.avatar.base;
-    weaponImg.src = playerCharacter.avatar.weapon;
-    characterLayer.x(playerCharacter.at.x);
-    characterLayer.y(playerCharacter.at.y);
+    stage.add(layers[i]);
 
+    layers[i].x(playerCharacter.at.x);
+    layers[i].y(playerCharacter.at.y);
+    layers[i].draw();
   }
 };

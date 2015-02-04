@@ -55,11 +55,45 @@ if (Meteor.isClient) {
 
   
   Template.pageGame.rendered = function() {
+    // Image Loader //
+
+    // put the paths to your images in imageURLs
+    var fileExt = ".png";
+    var imageURLs=[
+      "tree",
+      "spritesheet",
+      "stick",
+      "map1"
+    ];
+    var imagesOK=0;
+    var imgs={};
+
+    // fully load every image, then callback
+    for (var i=0; i<imageURLs.length; i++) {
+      var img = new Image();
+      imgs[imageURLs[i]] = img;
+      img.onload = function(){ 
+        imagesOK++;
+        // callback only when all images are loaded
+        if (imagesOK>=imageURLs.length ) {
+          Session.set("imagesReady", true);
+          console.log("images ready");
+        }
+      };
+      img.onerror=function(){console.err("image load failed");} 
+      img.crossOrigin="anonymous";
+      img.src = imageURLs[i] + fileExt;
+    }
+
+
     // Render kinetic only when db is ready
     // Re-render when data sources change
     Tracker.autorun(function() {
-      if(Session.get("dbReady")){
-        kineticRender();
+      if(Session.get("dbReady") && Session.get("imagesReady")){
+        var player = _dbPlayers.findOne({name: Meteor.user().username});
+
+        console.log(imgs);
+        kineticRender(player, imgs);
 
         // Force canvas to be focus-able
         $("canvas").attr("tabindex", 1);
