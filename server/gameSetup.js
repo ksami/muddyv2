@@ -7,8 +7,6 @@ if(Meteor.isServer){
   for(var key in _mapControllers) {
     var map = _mapControllers[key];
 
-    map.intervalHandle = Meteor.setInterval(function() {
-      map.spawnMob();
-    }, 1000);
+    map.timer.start();
   }
 }
