@@ -77,7 +77,7 @@ if (Meteor.isClient) {
           console.log("images ready");
         }
       };
-      img.onerror=function(){console.err("image load failed");} 
+      img.onerror=function(){console.err("image load failed");};
       img.crossOrigin="anonymous";
       img.src = imageURLs[i] + fileExt;
     }
