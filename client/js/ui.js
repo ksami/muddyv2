@@ -52,41 +52,13 @@ if (Meteor.isClient) {
 
   
   Template.pageGame.rendered = function() {
-    // Image Loader //
-
-    // put the paths to your images in imageURLs
-    var fileExt = ".png";
-    var imageURLs=[
-      "tree",
-      "spritesheet",
-      "stick",
-      "map1"
-    ];
-    var imagesOK=0;
-    var imgs={};
-
-    // fully load every image, then callback
-    for (var i=0; i<imageURLs.length; i++) {
-      var img = new Image();
-      imgs[imageURLs[i]] = img;
-      img.onload = function(){ 
-        imagesOK++;
-        // callback only when all images are loaded
-        if (imagesOK>=imageURLs.length ) {
-          Session.set("imagesReady", true);
-          console.log("images ready");
-        }
-      };
-      img.onerror=function(){console.err("image load failed");};
-      img.crossOrigin="anonymous";
-      img.src = imageURLs[i] + fileExt;
-    }
-
+    var imgs = {};
+    imageLoader(imgs);
 
     // Render kinetic only when db is ready
     // Re-render when data sources change
     Tracker.autorun(function() {
-      if(Session.get("dbReady") && Session.get("imagesReady")){
+      if(Session.get("playerReady") && Session.get("mobsReady") && Session.get("imagesReady")){
         var player = _dbPlayers.findOne({name: Meteor.user().username});
 
         console.log(imgs);
@@ -108,6 +80,39 @@ if (Meteor.isClient) {
       }
     });
 
+  };
+
+
+  // Preloads all images
+  // returns: imgs{}
+  imageLoader = function(imgs) {
+    // put the paths to your images in imageURLs
+    var fileExt = ".png";
+    var imageURLs=[
+      "tree",
+      "spritesheet",
+      "stick",
+      "map1",
+      "stone"
+    ];
+    var imagesOK=0;
+
+    // fully load every image, then callback
+    for (var i=0; i<imageURLs.length; i++) {
+      var img = new Image();
+      imgs[imageURLs[i]] = img;
+      img.onload = function(){ 
+        imagesOK++;
+        // callback only when all images are loaded
+        if (imagesOK>=imageURLs.length ) {
+          Session.set("imagesReady", true);
+          console.log("images ready");
+        }
+      };
+      img.onerror=function(){console.err("image load failed");};
+      img.crossOrigin="anonymous";
+      img.src = imageURLs[i] + fileExt;
+    }
   };
 
 }

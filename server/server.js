@@ -1,18 +1,28 @@
 if (Meteor.isServer) {
-    // only expose player's info to player
-    Meteor.publish("player", function() {
-      return _dbPlayers.find({userId: this.userId});
-    });
-    // and basic info about other players on same map
-    Meteor.publish("playersInMap", function() {
-      var playerAtMap = _dbPlayers.findOne({userId: this.userId}, {fields: {"at.map": 1}});
-      if(playerAtMap !== null) {
-        return _dbPlayers.find({"at.map": playerAtMap.at.map, isLoggedIn: true}, {fields: {name: 1, avatar: 1, at: 1}});
-      }
-      else {
-        return null;
-      }
-    });
+  // expose player's info to player
+  Meteor.publish("player", function() {
+    return _dbPlayers.find({userId: this.userId});
+  });
+  // and basic info about other players on same map
+  Meteor.publish("playersInMap", function() {
+    var playerAtMap = _dbPlayers.findOne({userId: this.userId}, {fields: {"at.map": 1}});
+    if(playerAtMap !== null) {
+      return _dbPlayers.find({"at.map": playerAtMap.at.map, isLoggedIn: true}, {fields: {name: 1, avatar: 1, at: 1}});
+    }
+    else {
+      return null;
+    }
+  });
+  // and basic info about mobs on same map
+  Meteor.publish("mobsInMap", function() {
+    var playerAtMap = _dbPlayers.findOne({userId: this.userId}, {fields: {"at.map": 1}});
+    if(playerAtMap !== null) {
+      return _dbMobs.find({"at.map": playerAtMap.at.map}, {fields: {species: 1, name: 1, avatar: 1, at: 1}});
+    }
+    else {
+      return null;
+    }
+  });
   
   Meteor.startup(function () {
     // code to run on server at startup
@@ -22,7 +32,7 @@ if (Meteor.isServer) {
   Meteor.users.find().observe({
     added: function(user) {
       var foundArray = _dbPlayers.find({name: user.username}).fetch();
-      if(foundArray.length == 0) {
+      if(foundArray.length === 0) {
         // Create a new document in _dbPlayers
         _dbPlayers.insert(new Player(new Date(), user.username, user._id));
         console.log("new Player added");

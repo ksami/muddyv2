@@ -11,14 +11,16 @@ if (Meteor.isClient) {
   Tracker.autorun(function() {
     if(Meteor.user() != null) {
       console.log("logged in");
-      Session.set("dbReady", false);
+      Session.set("playerReady", false);
+      Session.set("mapReady", false);
+      Session.set("mobsReady", false);
       Session.set("imagesReady", false);
       Session.set("ticks", {val: 0, maxval: false});
 
       // accept own info
       Meteor.subscribe("player", function() {
-        Session.set("dbReady", true);
-        console.log("dbReady");
+        Session.set("playerReady", true);
+        console.log("playerReady");
         //Session.set("player", _dbPlayers.find().fetch()[0]);
         var player = _dbPlayers.findOne({name: Meteor.user().username});
         _cursor = {x: player.at.x, y: player.at.y};
@@ -27,6 +29,11 @@ if (Meteor.isClient) {
       Meteor.subscribe("playersInMap", function() {
         Session.set("mapReady", true);
         console.log("mapReady");
+      });
+
+      Meteor.subscribe("mobsInMap", function() {
+        Session.set("mobsReady", true);
+        console.log("mobsReady");
       });
 
       // Event listener for _streamTimer

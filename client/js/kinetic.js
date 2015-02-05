@@ -65,11 +65,16 @@ kineticRender = function(player, imgs) {
     gridLayer.add(gridLiney);
   }
 
+  var mapmobs = _dbMobs.find({"at.map": player.at.map}, {fields: {species: 1, name: 1, avatar: 1, at: 1}}).fetch();
+  console.log("mapmobs\n");
+  console.log(mapmobs);
+  addMobAvatars(stage, mapmobs, imgs);
+
 
   var mapplayers = _dbPlayers.find({"at.map": player.at.map}, {fields: {name: 1, avatar: 1, at: 1}}).fetch();
   console.log("mapplayers\n");
   console.log(mapplayers);
-  addPlayerCharacters(stage, mapplayers, imgs);
+  addPlayerAvatars(stage, mapplayers, imgs);
 
 
 
@@ -156,10 +161,62 @@ kineticRender = function(player, imgs) {
     }
   });
 
-}
+};
 
 
-addPlayerCharacters = function(stage, players, imgs) {
+addMobAvatars = function(stage, mobs, imgs) {
+  console.log("---adding mobs---");
+
+  var layers = [];
+
+  for (var i = 0; i < mobs.length; i++) {
+    var mob = mobs[i];
+    console.log(mob.name);
+
+    // Character layer // 
+    layers[i] = new Kinetic.Layer();
+
+    var base = new Kinetic.Sprite({
+      x: 0,
+      y: 0,
+      image: imgs[mob.avatar.base],
+      animation: 'idle',
+      animations: {
+        idle: [
+          0,0,64,64
+        ]
+      },
+      frameRate: 5,
+      frameIndex: 0
+    });
+
+    layers[i].add(base);
+    base.start();
+
+
+    var nameText = new Kinetic.Text({
+      x: 6,
+      y: 3,
+      fontFamily: 'sans-serif',
+      fontSize: 10,
+      text: mob.name,
+      fill: 'black'
+    });
+    layers[i].add(nameText);
+
+
+    // Character
+    stage.add(layers[i]);
+
+    layers[i].x(mob.at.x);
+    layers[i].y(mob.at.y);
+    layers[i].draw();
+  }
+};
+
+
+
+addPlayerAvatars = function(stage, players, imgs) {
   console.log("---adding players---");
 
   var layers = [];

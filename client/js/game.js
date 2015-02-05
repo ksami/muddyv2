@@ -2,9 +2,9 @@ if (Meteor.isClient) {
 
 
   //todo: should be moved to MapController
-  // Triggers: dbReady, player, ticks
+  // Triggers: playerReady, player, ticks
   Tracker.autorun(function() {
-    if(Session.get("dbReady") && Meteor.user()){
+    if(Session.get("playerReady") && Meteor.user()){
 
       var player = _dbPlayers.findOne({name: Meteor.user().username});
       var tick = Session.get("ticks");
@@ -29,9 +29,9 @@ if (Meteor.isClient) {
     }
   });
 
-  // Triggers: dbReady, player, turnSwitch
+  // Triggers: playerReady, player, turnSwitch
   Tracker.autorun(function() {
-    if(Session.get("dbReady")){
+    if(Session.get("playerReady")){
     
       var player = _dbPlayers.findOne({name: Meteor.user().username});
       var turnSwitch = Session.get("turnSwitch");
