@@ -7,8 +7,8 @@ kineticRender = function(player, imgs) {
   // Stage //
   var stage = new Kinetic.Stage({
     container: 'map',
-    width: 640,
-    height: 640
+    width: map.size.x,
+    height: map.size.y
   });
 
 
