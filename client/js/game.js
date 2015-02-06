@@ -31,7 +31,7 @@ if (Meteor.isClient) {
 
   // Triggers: playerReady, player, turnSwitch
   Tracker.autorun(function() {
-    if(Session.get("playerReady")){
+    if(Session.get("playerReady") && Meteor.user()){
     
       var player = _dbPlayers.findOne({name: Meteor.user().username});
       var turnSwitch = Session.get("turnSwitch");

@@ -114,7 +114,8 @@ kineticRender = function(player, imgs) {
 
 
   //  Events  //
-  $("canvas").keydown(function(e) {
+  $("#page").keydown(function(e) {
+    console.log("keydown");
     e.preventDefault();
 
     // W key
@@ -151,7 +152,7 @@ kineticRender = function(player, imgs) {
     cursorLayer.draw();
   });
 
-  $("canvas").keyup(function(e) {
+  $("#page").keyup(function(e) {
     e.preventDefault();
 
     // E key commit target
@@ -288,7 +289,7 @@ addPlayerAvatars = function(stage, players, imgs) {
 };
 
 
-//todo: or move to above each char
+//todo: or move above each char
 combatInfoRender = function(player) {
   var map = _mapControllers[player.at.map];
   //  KINETIC  //
@@ -300,18 +301,27 @@ combatInfoRender = function(player) {
     height: 100
   });
 
-  var layers = [];
 
   var mapmobs = _dbMobs.find({"at.map": player.at.map}).fetch();
+  thingsInfoRender(stage, mapmobs, 0);
 
-  for (var i = 0; i < mapmobs.length; i++) {
-    var mob = mapmobs[i];
+  var mapplayers = _dbPlayers.find({"at.map": player.at.map}).fetch();
+  thingsInfoRender(stage, mapplayers, 1);
+
+};
+
+
+thingsInfoRender = function(stage, things, column) {
+  var layers = [];
+
+  for (var i = 0; i < things.length; i++) {
+    var thing = things[i];
     layers[i] = new Kinetic.Layer();
 
     var hp = new Kinetic.Rect({
       x: 0,
       y: 0,
-      width: Math.floor((mob.hp.current/mob.hp.max) * 50),
+      width: Math.floor((thing.hp.current/thing.hp.max) * 50),
       height: 4,
       fill: 'red',
       strokeEnabled: false
@@ -334,16 +344,14 @@ combatInfoRender = function(player) {
       y: 4,
       fontFamily: 'sans-serif',
       fontSize: 12,
-      text: mob.name,
+      text: thing.name,
       fill: 'black'
     });
     layers[i].add(nameText);
 
     stage.add(layers[i]);
-    layers[i].x(3);
+    layers[i].x(3 + column*60);
     layers[i].y(i*20);
     layers[i].draw();
   }
-
-
 };

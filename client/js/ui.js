@@ -52,6 +52,8 @@ if (Meteor.isClient) {
 
   
   Template.pageGame.rendered = function() {
+    $("#page").attr("tabindex", 1);
+
     var imgs = {};
     imageLoader(imgs);
 
@@ -64,20 +66,6 @@ if (Meteor.isClient) {
         console.log(imgs);
         kineticRender(player, imgs);
         combatInfoRender(player);
-
-        // Force canvas to be focus-able
-        $("canvas").attr("tabindex", 1);
-        $("#page").attr("tabindex", 1);
-        $("canvas").focus();
-
-        $("#page").focus(function() {
-          console.log("page focus");
-          $("canvas").focus();
-        });
-        $(".kineticjs-content").click(function() {
-          console.log("kjs focus");
-          $("canvas").focus();
-        });
       }
     });
 

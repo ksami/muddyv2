@@ -6,8 +6,8 @@ if (Meteor.isServer) {
   // and basic info about other players on same map
   Meteor.publish("playersInMap", function() {
     var playerAtMap = _dbPlayers.findOne({userId: this.userId}, {fields: {"at.map": 1}});
-    if(playerAtMap !== null) {
-      return _dbPlayers.find({"at.map": playerAtMap.at.map, isLoggedIn: true}, {fields: {name: 1, avatar: 1, at: 1}});
+    if(playerAtMap) {
+      return _dbPlayers.find({"at.map": playerAtMap.at.map, isLoggedIn: true}, {fields: {userId: 0}});
     }
     else {
       return null;
@@ -48,7 +48,7 @@ if (Meteor.isServer) {
 
   Meteor._onLogout = function(userId) {
     console.log(userId + " just logged out");
-    //debug
+    //debug: simulate other players
     //_dbPlayers.update({userId: userId}, {$set: {isLoggedIn: false}});
   };
 
