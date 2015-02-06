@@ -9,7 +9,7 @@ if (Meteor.isClient) {
 
   // if logged in
   Tracker.autorun(function() {
-    if(Meteor.user() != null) {
+    if(Meteor.user()) {
       console.log("logged in");
       Session.set("playerReady", false);
       Session.set("mapReady", false);

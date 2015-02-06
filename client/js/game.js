@@ -38,9 +38,7 @@ if (Meteor.isClient) {
 
       // Players' actions take effect once it switches to mobs' turn
       if(turnSwitch.turn == "mob") {
-        console.log(_cursor);
         if(_cursor.x != player.at.x || _cursor.y != player.at.y) {
-          console.log("calling moveplayer");
           Meteor.call("movePlayer", _cursor);
         }
       }

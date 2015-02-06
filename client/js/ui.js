@@ -63,7 +63,6 @@ if (Meteor.isClient) {
       if(Session.get("playerReady") && Session.get("mobsReady") && Session.get("imagesReady")){
         var player = _dbPlayers.findOne({name: Meteor.user().username});
 
-        console.log(imgs);
         kineticRender(player, imgs);
         combatInfoRender(player);
       }

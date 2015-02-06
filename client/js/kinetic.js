@@ -1,6 +1,5 @@
 kineticRender = function(player, imgs) {
   var map = _mapControllers[player.at.map];
-  console.log(map);
 
   //  KINETIC  //
 
@@ -66,14 +65,10 @@ kineticRender = function(player, imgs) {
   }
 
   var mapmobs = _dbMobs.find({"at.map": player.at.map}).fetch();
-  console.log("mapmobs\n");
-  console.log(mapmobs);
   addMobAvatars(stage, mapmobs, imgs);
 
 
   var mapplayers = _dbPlayers.find({"at.map": player.at.map}, {fields: {name: 1, avatar: 1, at: 1}}).fetch();
-  console.log("mapplayers\n");
-  console.log(mapplayers);
   addPlayerAvatars(stage, mapplayers, imgs);
 
 
@@ -115,7 +110,6 @@ kineticRender = function(player, imgs) {
 
   //  Events  //
   $("#page").keydown(function(e) {
-    console.log("keydown");
     e.preventDefault();
 
     // W key
