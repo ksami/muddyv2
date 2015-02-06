@@ -65,7 +65,7 @@ kineticRender = function(player, imgs) {
     gridLayer.add(gridLiney);
   }
 
-  var mapmobs = _dbMobs.find({"at.map": player.at.map}, {fields: {species: 1, name: 1, avatar: 1, at: 1}}).fetch();
+  var mapmobs = _dbMobs.find({"at.map": player.at.map}).fetch();
   console.log("mapmobs\n");
   console.log(mapmobs);
   addMobAvatars(stage, mapmobs, imgs);
@@ -85,7 +85,7 @@ kineticRender = function(player, imgs) {
     height: map.size.stepy,
     stroke: 'red',
     strokeWidth: 2
-  })
+  });
   cursorLayer.add(cursor);
 
 
@@ -285,4 +285,65 @@ addPlayerAvatars = function(stage, players, imgs) {
     layers[i].y(playerCharacter.at.y);
     layers[i].draw();
   }
+};
+
+
+//todo: or move to above each char
+combatInfoRender = function(player) {
+  var map = _mapControllers[player.at.map];
+  //  KINETIC  //
+
+  // Stage //
+  var stage = new Kinetic.Stage({
+    container: 'combatInfo',
+    width: 150,
+    height: 100
+  });
+
+  var layers = [];
+
+  var mapmobs = _dbMobs.find({"at.map": player.at.map}).fetch();
+
+  for (var i = 0; i < mapmobs.length; i++) {
+    var mob = mapmobs[i];
+    layers[i] = new Kinetic.Layer();
+
+    var hp = new Kinetic.Rect({
+      x: 0,
+      y: 0,
+      width: Math.floor((mob.hp.current/mob.hp.max) * 50),
+      height: 4,
+      fill: 'red',
+      strokeEnabled: false
+    });
+    layers[i].add(hp);
+
+    var hpbar = new Kinetic.Rect({
+      x: 0,
+      y: 0,
+      width: 50,
+      height: 4,
+      fillEnabled: false,
+      stroke: 'black',
+      strokeWidth: 2
+    });
+    layers[i].add(hpbar);
+
+    var nameText = new Kinetic.Text({
+      x: 0,
+      y: 4,
+      fontFamily: 'sans-serif',
+      fontSize: 12,
+      text: mob.name,
+      fill: 'black'
+    });
+    layers[i].add(nameText);
+
+    stage.add(layers[i]);
+    layers[i].x(3);
+    layers[i].y(i*20);
+    layers[i].draw();
+  }
+
+
 };

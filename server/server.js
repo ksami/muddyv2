@@ -17,7 +17,7 @@ if (Meteor.isServer) {
   Meteor.publish("mobsInMap", function() {
     var playerAtMap = _dbPlayers.findOne({userId: this.userId}, {fields: {"at.map": 1}});
     if(playerAtMap !== null) {
-      return _dbMobs.find({"at.map": playerAtMap.at.map}, {fields: {species: 1, name: 1, avatar: 1, at: 1}});
+      return _dbMobs.find({"at.map": playerAtMap.at.map});
     }
     else {
       return null;

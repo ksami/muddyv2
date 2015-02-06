@@ -63,6 +63,7 @@ if (Meteor.isClient) {
 
         console.log(imgs);
         kineticRender(player, imgs);
+        combatInfoRender(player);
 
         // Force canvas to be focus-able
         $("canvas").attr("tabindex", 1);
