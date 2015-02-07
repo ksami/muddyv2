@@ -2,12 +2,6 @@ if (Meteor.isClient) {
 
   // Helpers define variables/data rendered in html
   Template.pageGame.helpers({
-    actions: [
-      {action: {type: "move", val: 1}, text: "move"},
-      {action: {type: "fight", val: 1}, text: "fight"},
-      {action: {type: "skill", val: 4}, text: "skill"},
-      {action: {type: "item", val: 1}, text: "item"}
-    ],
     turns: function() {
       return Session.get("turns");
     }
@@ -53,6 +47,8 @@ if (Meteor.isClient) {
   
   Template.pageGame.rendered = function() {
     $("#page").attr("tabindex", 1);
+
+    actionsRender();
 
     var imgs = {};
     imageLoader(imgs);

@@ -297,15 +297,15 @@ combatInfoRender = function(player) {
 
 
   var mapmobs = _dbMobs.find({"at.map": player.at.map}).fetch();
-  thingsInfoRender(stage, mapmobs, 0);
+  addThingsInfo(stage, mapmobs, 0);
 
   var mapplayers = _dbPlayers.find({"at.map": player.at.map}).fetch();
-  thingsInfoRender(stage, mapplayers, 1);
+  addThingsInfo(stage, mapplayers, 1);
 
 };
 
 
-thingsInfoRender = function(stage, things, column) {
+addThingsInfo = function(stage, things, column) {
   var layers = [];
 
   for (var i = 0; i < things.length; i++) {
@@ -348,4 +348,83 @@ thingsInfoRender = function(stage, things, column) {
     layers[i].y(i*20);
     layers[i].draw();
   }
+};
+
+
+
+actionsRender = function() {
+  var stepx = 50;
+  var stepy = 20;
+
+  //  KINETIC  //
+
+  // Stage //
+  var stage = new Kinetic.Stage({
+    container: 'actions',
+    width: 150,
+    height: 75
+  });
+
+  var actionsLayer = new Kinetic.Layer();
+  var actionsText = ["Move", "Attack", "Skill", "Item"];
+  var actions = [];
+  for (var i = 0; i < actionsText.length; i++) {
+    actions[i] = new Kinetic.Text({
+      x: (i%2)*stepx + 3,
+      y: Math.floor(i/2)*stepy + 3,
+      fontFamily: 'sans-serif',
+      fontSize: 12,
+      text: actionsText[i],
+      fill: 'black'
+    });
+    actionsLayer.add(actions[i]);
+  }
+  stage.add(actionsLayer);
+  actionsLayer.draw();
+
+  var cursorLayer = new Kinetic.Layer();
+  var cursor = new Kinetic.Rect({
+    x: 1,
+    y: 1,
+    width: stepx,
+    height: 10,
+    fillEnabled: false,
+    stroke: 'red',
+    strokeWidth: 2
+  });
+  cursorLayer.add(cursor);
+  stage.add(cursorLayer);
+  cursorLayer.draw();
+
+
+  //  Events  //
+  $("#page").keydown(function(e) {
+    e.preventDefault();
+
+    // Up arrow key
+    if(e.which == 38) {
+      if(cursorLayer.y() - stepy >= 0) {
+        cursorLayer.y(cursorLayer.y() - stepy);
+      }
+    }
+    // Down arrow key
+    else if(e.which == 40) {
+      if(cursorLayer.y() + stepy < stepy+2) {
+        cursorLayer.y(cursorLayer.y() + stepy);
+      }
+    }
+    // Left arrow key
+    else if(e.which == 37) {
+      if(cursorLayer.x() - stepx >= 0) {
+        cursorLayer.x(cursorLayer.x() - stepx);
+      }
+    }
+    // Right arrow key
+    else if(e.which == 39) {
+      if(cursorLayer.x() + stepx < stepx+2) {
+        cursorLayer.x(cursorLayer.x() + stepx);
+      }
+    }
+    cursorLayer.draw();
+  });
 };
