@@ -47,6 +47,8 @@ if (Meteor.isClient) {
   
   Template.pageGame.rendered = function() {
     $("#page").attr("tabindex", 1);
+    $("#page").focus();
+
 
     actionsRender();
 
@@ -61,6 +63,10 @@ if (Meteor.isClient) {
 
         kineticRender(player, imgs);
         combatInfoRender(player);
+
+        $(".kineticjs-content").click(function() {
+          $("#page").focus();
+        });
       }
     });
 

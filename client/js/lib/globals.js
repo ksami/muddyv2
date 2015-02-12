@@ -1,0 +1,2 @@
+_cursor = {};
+_cursorAction = {};
