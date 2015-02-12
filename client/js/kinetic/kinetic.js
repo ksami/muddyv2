@@ -1,4 +1,4 @@
-kineticRender = function(player, imgs) {
+mapRender = function(player, imgs) {
   var map = _mapControllers[player.at.map];
 
   //  KINETIC  //
@@ -21,23 +21,21 @@ kineticRender = function(player, imgs) {
     image: imgs[map.image]
   });
   backgroundLayer.add(background);
+
+  var portals = [];
+  for(var i=0; i<map.portals.length; i++) {
+    portals[i] = new Kinetic.Text({
+      x: (map.portals[i].location.gridx*map.size.stepx)+map.size.stepx/3,  //approx center of square
+      y: (map.portals[i].location.gridy*map.size.stepy)+map.size.stepy/3,
+      fontFamily: 'sans-serif',
+      fontSize: 26,
+      text: 'X',
+      fill: 'black'
+    });
+    backgroundLayer.add(portals[i]);
+  }
+
   backgroundLayer.draw();
-
-
-  // var treeImg = new Image();
-  // treeImg.onload = function() {
-  //   for (var i=0; i<10; i++) {
-  //     var blob = new Kinetic.Image({
-  //       x: Math.floor(Math.random()*586),
-  //       y: Math.floor(Math.random()*586),
-  //       width: 64,
-  //       height: 64,
-  //       image: treeImg
-  //     });
-  //     backgroundLayer.add(blob);
-  //   }
-  //   backgroundLayer.draw();
-  // };
 
 
 

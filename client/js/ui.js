@@ -49,7 +49,7 @@ if (Meteor.isClient) {
     $("#page").attr("tabindex", 1);
     $("#page").focus();
 
-
+    // Actions menu
     actionsRender();
 
     var imgs = {};
@@ -61,7 +61,9 @@ if (Meteor.isClient) {
       if(Session.get("playerReady") && Session.get("mobsReady") && Session.get("imagesReady")){
         var player = _dbPlayers.findOne({name: Meteor.user().username});
 
-        kineticRender(player, imgs);
+        // Map, players, grid, mobs
+        mapRender(player, imgs);
+        // Hp bars
         combatInfoRender(player);
 
         $(".kineticjs-content").click(function() {
