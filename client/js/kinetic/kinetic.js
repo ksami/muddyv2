@@ -1,5 +1,5 @@
 mapRender = function(player, imgs) {
-  var map = _mapControllers[player.at.map];
+  var map = _mapControllers[player.at.map.id];
 
   //  KINETIC  //
 
@@ -62,11 +62,11 @@ mapRender = function(player, imgs) {
     gridLayer.add(gridLiney);
   }
 
-  var mapmobs = _dbMobs.find({"at.map": player.at.map}).fetch();
+  var mapmobs = _dbMobs.find({"at.map.id": player.at.map.id}).fetch();
   addMobAvatars(stage, mapmobs, imgs);
 
 
-  var mapplayers = _dbPlayers.find({"at.map": player.at.map}, {fields: {name: 1, avatar: 1, at: 1}}).fetch();
+  var mapplayers = _dbPlayers.find({"at.map.id": player.at.map.id}, {fields: {name: 1, avatar: 1, at: 1}}).fetch();
   addPlayerAvatars(stage, mapplayers, imgs);
 
 
@@ -84,7 +84,7 @@ mapRender = function(player, imgs) {
 
 
   // src //
-  //backgroundImg.src = _mapControllers[player.at.map].image;
+  //backgroundImg.src = _mapControllers[player.at.map.id].image;
   //treeImg.src = "/tree.png";
 
 
@@ -136,8 +136,7 @@ mapRender = function(player, imgs) {
     }
     // E key commit target
     else if(e.which == 69) {
-      //Session.set("cursor", {x: cursorLayer.x(), y: cursorLayer.y()});
-      _cursor = {x: cursorLayer.x(), y: cursorLayer.y()};
+      _cursorTarget = {x: cursorLayer.x(), y: cursorLayer.y()};
       cursor.stroke('blue');
       console.log("e key pressed");
     }

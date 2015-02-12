@@ -2,7 +2,7 @@
 
 //todo: or move above each char
 combatInfoRender = function(player) {
-  var map = _mapControllers[player.at.map];
+  var map = _mapControllers[player.at.map.id];
   //  KINETIC  //
 
   // Stage //
@@ -13,10 +13,10 @@ combatInfoRender = function(player) {
   });
 
 
-  var mapmobs = _dbMobs.find({"at.map": player.at.map}).fetch();
+  var mapmobs = _dbMobs.find({"at.map.id": player.at.map.id}).fetch();
   addThingsInfo(stage, mapmobs, 0);
 
-  var mapplayers = _dbPlayers.find({"at.map": player.at.map}).fetch();
+  var mapplayers = _dbPlayers.find({"at.map.id": player.at.map.id}).fetch();
   addThingsInfo(stage, mapplayers, 1);
 
 };
