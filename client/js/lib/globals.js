@@ -1,2 +1,2 @@
-_cursorTarget = {};
-_cursorAction = {};
+_cursorTarget = null;
+_cursorAction = null;

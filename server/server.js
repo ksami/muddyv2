@@ -7,7 +7,7 @@ if (Meteor.isServer) {
   Meteor.publish("playersInMap", function() {
     var playerAtMap = _dbPlayers.findOne({userId: this.userId}, {fields: {"at.map": 1}});
     if(playerAtMap) {
-      return _dbPlayers.find({"at.map": playerAtMap.at.map, isLoggedIn: true}, {fields: {userId: 0}});
+      return _dbPlayers.find({"at.map": playerAtMap.at.map, isLoggedIn: true}, {fields: {userId: 0, intent: 0}});
     }
     else {
       return null;

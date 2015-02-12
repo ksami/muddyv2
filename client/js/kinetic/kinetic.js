@@ -136,7 +136,9 @@ mapRender = function(player, imgs) {
     }
     // E key commit target
     else if(e.which == 69) {
-      _cursorTarget = {x: cursorLayer.x(), y: cursorLayer.y()};
+      //might be triggered very frequently, cannot risk so many db updates
+      _cursorTarget = {gridx: cursorLayer.x()/map.size.stepx, gridy: cursorLayer.y()/map.size.stepy};
+
       cursor.stroke('blue');
       console.log("e key pressed");
     }

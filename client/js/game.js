@@ -1,5 +1,21 @@
 if (Meteor.isClient) {
 
+  // Triggers: playerReady, player, ticks
+  Tracker.autorun(function() {
+    if(Session.get("playerReady") && Meteor.user()){
+      //for triggering the autorun
+      Session.get("ticks");
+
+      // Update intent of player every tick
+      Meteor.call("playerUpdateIntent", {target: _cursorTarget, action: _cursorAction});
+      _cursorAction = null;
+      _cursorTarget = null;
+    }
+  });
+
+
+
+
 
   // //todo: should be moved to MapController
   // // Triggers: playerReady, player, ticks
