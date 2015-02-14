@@ -6,11 +6,20 @@ actionsRender = function() {
   var stepy = 20;
 
   var actionsText = [
-    {text: "Move", x: 3, y: 3}, 
-    {text: "Attack", x: 53, y: 3}, 
-    {text: "Skill", x: 3, y: 23}, 
-    {text: "Item", x: 53, y: 23}
+    {text: "Move", action:"move", x: 3, y: 3}, 
+    {text: "Attack", action: "attack", x: 53, y: 3}, 
+    {text: "Skill", action: "skill", x: 3, y: 23}, 
+    {text: "Item", action: "item", x: 53, y: 23}
   ];
+
+  //lookup for easier reverse reference to find action
+  var actionsTextLookup = {};
+  for(var i=0; i<actionsText.length; i++) {
+    if(!(actionsTextLookup[actionsText[i].x])) {
+      actionsTextLookup[actionsText[i].x] = {};
+    }
+    actionsTextLookup[actionsText[i].x][actionsText[i].y] = actionsText[i].action;
+  }
 
   //  KINETIC  //
 
@@ -82,7 +91,7 @@ actionsRender = function() {
     }
     // Enter key
     else if(e.which == 13) {
-      _cursorAction = {x: cursorLayer.x(), y: cursorLayer.y()};
+      _cursorAction = {action: actionsTextLookup[cursorLayer.x()+3][cursorLayer.y()+3]};
       console.log(_cursorAction);
     }
     cursorLayer.draw();
