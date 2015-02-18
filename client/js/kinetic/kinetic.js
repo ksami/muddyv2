@@ -1,4 +1,5 @@
 mapRender = function(player, imgs) {
+  //TODO: change to using _roomControllers //BREAKING BUG
   var map = _mapControllers[player.at.map.id];
 
   //  KINETIC  //

@@ -10,8 +10,9 @@ if (Meteor.isClient) {
 
   // Events define listeners for actions
   Template.pageGame.events({
-    'click button': function () {
+    'click #trigger': function () {
       //debug
+      alert("clicked");
     },
     'submit .form-chat': function(event) {
       var msg = {from: Meteor.user().username, text: event.target.inputChat.value};
