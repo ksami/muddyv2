@@ -2,7 +2,8 @@
 
 //todo: or move above each char
 combatInfoRender = function(player) {
-  var map = _mapControllers[player.at.map.id];
+  var room = _roomControllers[player.at.room.id];
+  var map = room.mapControllers[player.at.map.id];
   //  KINETIC  //
 
   // Stage //

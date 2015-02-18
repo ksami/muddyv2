@@ -1,6 +1,6 @@
 mapRender = function(player, imgs) {
-  //TODO: change to using _roomControllers //BREAKING BUG
-  var map = _mapControllers[player.at.map.id];
+  var room = _roomControllers[player.at.room.id];
+  var map = room.mapControllers[player.at.map.id];
 
   //  KINETIC  //
 
@@ -85,7 +85,6 @@ mapRender = function(player, imgs) {
 
 
   // src //
-  //backgroundImg.src = _mapControllers[player.at.map.id].image;
   //treeImg.src = "/tree.png";
 
 
