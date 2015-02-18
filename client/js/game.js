@@ -6,10 +6,16 @@ if (Meteor.isClient) {
       //for triggering the autorun
       Session.get("ticks");
 
-      // Update intent of player every tick
-      Meteor.call("playerUpdateIntent", {target: _cursorTarget, action: _cursorAction});
-      _cursorAction = null;
-      _cursorTarget = null;
+      // Update intent of player every tick and if changed
+      if(_cursorTarget) {
+        Meteor.call("playerUpdateIntentTarget", _cursorTarget);        
+        _cursorTarget = null;
+      }
+      if(_cursorAction) {
+        Meteor.call("playerUpdateIntentAction", _cursorAction);        
+        _cursorAction = null;
+      }
+
     }
   });
 
